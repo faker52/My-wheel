@@ -1,0 +1,2 @@
+git config --global https.proxy 使用代理
+git config --global --unset https.proxy
