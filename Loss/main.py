@@ -45,8 +45,10 @@ class Agent:
         steps = []
         obs = self.env.reset()
         while True:
-            sm = nn.Softmax(dim=0)
+            sm = nn.Softmax(dim=-1)
+
             action_probs = sm(self.net(torch.FloatTensor(obs)))
+
             action_probs = action_probs.data.numpy()
             action = np.random.choice(len(action_probs), p=action_probs)
             next_obs, reward, is_done, _ = self.env.step(action)
