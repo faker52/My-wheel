@@ -3,6 +3,7 @@ import gym
 import torch
 import torch.nn as nn
 import numpy as np
+import torch.nn.functional as F
 from collections import namedtuple
 import torch.nn as nn
 import torch.optim as optim
@@ -23,7 +24,7 @@ class Net(nn.Module):
         super(Net, self).__init__()
         self.net = nn.Sequential(
             nn.Linear(obs_size, hidden_size),
-            nn.ReLU(),
+            nn.Tanh(),
             nn.Linear(hidden_size, n_action)
         )
     def forward(self, x):

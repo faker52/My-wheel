@@ -1,33 +1,25 @@
-import  torch
+import torch
+from torch.nn import functional as F
+A = torch.Tensor(
+    [[[1,1,2],
+    [2,2,1]],
 
-import torch.nn as nn
-import numpy as np
+    [[1,1,3],
+    [2,2,10]]
 
-a = torch.tensor([[[1.0,2.0,3.0],
-                 [4.0,5.0,6.0]],
-                [[1.0,2.0,3.0],
-                 [4.0,5.0,6.0]]])
-print(a)
-print(a.shape)
-ln = torch.nn.LayerNorm([2,3],elementwise_affine=False)
-ln_out = ln(a)
-print(ln_out)
+     ]
+)
+print(A)
+print(A.size())
+#对所有数字做归一化
 
-mean = np.mean(a.numpy(), axis=(1,2))
-var = np.var(a.numpy(), axis=(1,2))
-div = np.sqrt(var+1e-05)
-ln_out = (a.numpy()-mean[:,None,None])/div[:,None,None]
-print(ln_out)
+#最后的某几个维度一起归一化
+ln3 = torch.nn.LayerNorm(3, elementwise_affine=False, eps=0.0)
+sm = torch.nn.Softmax(dim=0) #0是一列，1、-1是一行
+ln2 = sm(A)
 
-a = torch.randn((2,5))
-print(a)
-print(a.shape)
-ln = torch.nn.LayerNorm([5],elementwise_affine=False)
-ln_out = ln(a)
-print(ln_out)
+A3 = ln3(A)
+print(ln2)
+print(A3)
 
-mean = np.mean(a.numpy(), axis=(1))
-var = np.var(a.numpy(), axis=(1))
-div = np.sqrt(var+1e-05)
-ln_out = (a.numpy()-mean[:,None,None])/div[:,None,None]
-print(ln_out)
+
